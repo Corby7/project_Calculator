@@ -24,13 +24,29 @@ numbersArray.forEach(button => {
 let operatorsArray = Array.from(operators);
 operatorsArray.forEach(button => {
     button.addEventListener('click', event => {
-        if (displayValue !== null) {
+        if (displayValue !== null && firstValue === null) {
             firstValue = displayValue
             operator = (event.target.id);
             clearDisplay();
-            console.log("firstValue: " + firstValue);
-            console.log("operator " + operator);
+
             console.log("--------------------------------------------------");
+            console.log("pressed-operator " + operator);
+            console.log("firstValue: " + firstValue);
+            console.log("secondValue: " + secondValue);
+            console.log("--------------------------------------------------");
+
+        } else if (firstValue !== null) {
+            secondValue = displayValue;
+            clearDisplay();
+            firstValue = operate(Number(firstValue), operator, Number(secondValue));
+            operator = (event.target.id);
+
+            console.log("--------------------------------------------------");
+            console.log("pressed-operator " + operator);
+            console.log("firstvalue: " + firstValue);
+            console.log("secondValue: " + secondValue);
+            console.log("--------------------------------------------------");
+
         }
     });
 });

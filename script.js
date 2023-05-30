@@ -12,6 +12,12 @@ const operators = document.querySelectorAll(".operators");
 const decimal = document.querySelector(".decimal");
 const sign = document.querySelector(".sign");
 const percent = document.querySelector(".percent");
+const backspace = document.querySelector(".backspace");
+
+backspace.addEventListener('click', event => {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
+});
 
 percent.addEventListener('click', event => {
     if (displayValue !== null && temp === true) {

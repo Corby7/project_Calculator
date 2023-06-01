@@ -24,7 +24,7 @@ clearAllButton.addEventListener('click', clearAll);
 //updates display with typed value and shows scientific notion if string length is above 9
 function updateDisplay() {
     display.textContent = displayValue;
-    if (displayValue !== null) {
+    if (displayValue > null) {
         if (displayValue.length > 9) {
             let numberdisplayValue = Number(displayValue);
             displayValue = numberdisplayValue.toExponential(2);

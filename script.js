@@ -4,23 +4,33 @@ var secondValue = null;
 
 var displayValue = null;
 
-var temp = false;
+var equalSwitch = false;
 
+//button declarations
 const numbers = document.querySelectorAll(".numbers");
 const operators = document.querySelectorAll(".operators");
 
-const decimal = document.querySelector(".decimal");
-const sign = document.querySelector(".sign");
-const percent = document.querySelector(".percent");
-const backspace = document.querySelector(".backspace");
+//special button declarations
+const decimalButton = document.querySelector(".decimal");
+const signButton = document.querySelector(".sign");
+const percentButton = document.querySelector(".percent");
+const backspaceButton = document.querySelector("#backspace");
+const clearAllButton = document.querySelector(".clearall");
+const equalsButton = document.querySelector(".equals");
 
-backspace.addEventListener('click', event => {
+equalsButton.addEventListener('click', equals);
+
+clearAllButton.addEventListener('click', clearAll);
+
+//removes last user input
+backspaceButton.addEventListener('click', event => {
     displayValue = displayValue.slice(0, -1);
     updateDisplay();
 });
 
-percent.addEventListener('click', event => {
-    if (displayValue !== null && temp === true) {
+//divides by 100 to show percentage
+percentButton.addEventListener('click', event => {
+    if (displayValue !== null && equalSwitch === true) {
         displayValue = (displayValue/100);
         firstValue = displayValue;
         updateDisplay();
@@ -30,19 +40,14 @@ percent.addEventListener('click', event => {
     }
 });
 
-sign.addEventListener('click', event => {
-    if (displayValue.includes("-")) {
-        displayValue = displayValue.replace('-', '');
-        updateDisplay();
-    } else {
-    displayValue = "-" + displayValue;
-    console.log(displayValue);
+//adds or removes '-' based on if already present or not
+signButton.addEventListener('click', event => {
+    displayValue = (Number(displayValue) * -1);
     updateDisplay();
-    }
-});
+    });
 
 //adds decimal to displayValue string, only if there is not already a decimal present
-decimal.addEventListener('click', event => {
+decimalButton.addEventListener('click', event => {
     if (displayValue === null) {
         displayValue = "0.";
         updateDisplay();
@@ -54,15 +59,16 @@ decimal.addEventListener('click', event => {
     }
 });
 
+//inputs chosen number, if user just pressed equals before; clears display and updates display with chosen number
 let numbersArray = Array.from(numbers);
 numbersArray.forEach(button => {
     button.addEventListener('click', event => {
         if (displayValue == null) {
             displayValue = (event.target.id);
-        } else if (displayValue !== null & temp === true) {
+        } else if (displayValue !== null & equalSwitch === true) {
             clearAll();
             displayValue = (event.target.id);
-            temp = false;
+            equalSwitch = false;
         } else {
             displayValue += (event.target.id);
         } 
@@ -71,6 +77,7 @@ numbersArray.forEach(button => {
     });
 });
 
+//sets operator and if a third value is chosen, first operates the two first values and then continues further
 let operatorsArray = Array.from(operators);
 operatorsArray.forEach(button => {
     button.addEventListener('click', event => { 
@@ -85,7 +92,7 @@ operatorsArray.forEach(button => {
             console.log("secondValue: " + secondValue);
             console.log("--------------------------------------------------");
 
-        } else if (firstValue !== null & temp == false) {
+        } else if (firstValue !== null & equalSwitch == false) {
             secondValue = displayValue;
             clearDisplay();
             firstValue = operate(Number(firstValue), operator, Number(secondValue));
@@ -97,10 +104,11 @@ operatorsArray.forEach(button => {
             console.log("secondValue: " + secondValue);
             console.log("--------------------------------------------------");
 
-        } else if (firstValue !== null & temp == true) {
+        } else if (firstValue !== null & equalSwitch == true) {
+            firstValue = displayValue;
             clearDisplay();
             operator = (event.target.id);
-            temp = false;
+            equalSwitch = false;
             console.log("--------------------------------------------------");
             console.log("pressed-operator " + operator);
             console.log("firstValue: " + firstValue);
@@ -110,44 +118,53 @@ operatorsArray.forEach(button => {
     });
 });
 
-
+//updates display with typed value and shows scientific notion if string length is above 9
 function updateDisplay() {
     display.textContent = displayValue;
+    if (displayValue !== null) {
+        if (displayValue.length > 9) {
+            let numberdisplayValue = Number(displayValue);
+            displayValue = numberdisplayValue.toExponential(2);
+        }
+    }
 }
 
+//clears display
 function clearDisplay() {
     displayValue = null;
     updateDisplay();
 }
 
+//sets all value to null and updates display
 function clearAll() {
     displayValue = null;
     updateDisplay();
     firstValue = null;
     secondValue = null;
     operator = null;
-    temp = false;
+    equalSwitch = false;
     console.log("clear All");
 }
 
+//sets display value as second value, operates and shows result
 function equals() {
-    if (temp === false) {
+    if (equalSwitch === false) {
         secondValue = displayValue;
         displayValue = operate(Number(firstValue), operator, Number(secondValue));
         updateDisplay();
         firstValue = displayValue;
-        temp = true;  
+        equalSwitch = true;  
     }
 
     console.log("--------------------------------------------------");
     console.log("equals");
     console.log("firstValue: " + firstValue);
     console.log("secondValue: " + secondValue);
-    console.log(temp)
+    console.log(equalSwitch)
     console.log("--------------------------------------------------");
 }
 
-//
+//operates based on chosen operator
 function operate(a, op, b) {
     if (op === "+") {
         return add(a, b);

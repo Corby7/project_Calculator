@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;0,700;0,900;1,300&display=swap" rel="stylesheet">    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
     <div id="calculator">
@@ -13,28 +17,30 @@
             <p id="displayValue"></p>
         </div>
         <div class="buttons">
-            <button class="clear" id="AC" onclick="clearAll()">AC</button>
+            <button class="clearall" id="AC">AC</button>
             <button class="sign" id="+/-">+/-</button>
             <button class="percent" id="%">%</button>        
-            <button class="operators" id="÷">÷</button>
+            <button class="operators iconify" id="÷">÷</button>
             <button class="numbers" id="7">7</button>
             <button class="numbers" id="8">8</button>
             <button class="numbers" id="9">9</button>
-            <button class="operators" id="*">*</button>
+            <button class="operators material-symbols-outlined" id="*">close</button>
             <button class="numbers" id="4">4</button>
             <button class="numbers" id="5">5</button>
             <button class="numbers" id="6">6</button>
-            <button class="operators" id="-">-</button>
+            <button class="operators material-symbols-outlined" id="-">remove</button>
             <button class="numbers" id="1">1</button>
             <button class="numbers" id="2">2</button>
             <button class="numbers" id="3">3</button>
-            <button class="operators" id="+">+</button>
+            <button class="operators material-symbols-outlined" id="+">add</button>
             <button class="numbers" id="0">0</button>
             <button class="decimal" id=".">.</button>
-            <button class="backspace" id="del">del</button>
-            <button class="equals" onclick="equals()" id="=">=</button>
+            <button class="material-symbols-outlined" id="backspace">backspace</button>
+            <button class="equals material-symbols-outlined" id="=">equal</button>
         </div>
     </div>
-<script src="script.js"></script>    
+    <footer><h2>/JulesCorbijn/</h2></footer>
+<script src="script.js"></script>
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>    
 </body>
 </html>

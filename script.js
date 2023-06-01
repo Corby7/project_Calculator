@@ -19,8 +19,24 @@ const clearAllButton = document.querySelector(".clearall");
 const equalsButton = document.querySelector(".equals");
 
 equalsButton.addEventListener('click', equals);
-
 clearAllButton.addEventListener('click', clearAll);
+
+//updates display with typed value and shows scientific notion if string length is above 9
+function updateDisplay() {
+    display.textContent = displayValue;
+    if (displayValue !== null) {
+        if (displayValue.length > 9) {
+            let numberdisplayValue = Number(displayValue);
+            displayValue = numberdisplayValue.toExponential(2);
+        }
+    }
+}
+
+//clears display
+function clearDisplay() {
+    displayValue = null;
+    updateDisplay();
+}
 
 //removes last user input
 backspaceButton.addEventListener('click', event => {
@@ -55,9 +71,29 @@ decimalButton.addEventListener('click', event => {
     } else {
         displayValue += ".";
         updateDisplay();
-        console.log(displayValue);
     }
 });
+
+//sets all value to null and updates display
+function clearAll() {
+    displayValue = null;
+    updateDisplay();
+    firstValue = null;
+    secondValue = null;
+    operator = null;
+    equalSwitch = false;
+}
+
+//sets display value as second value, operates and shows result
+function equals() {
+    if (equalSwitch === false) {
+        secondValue = displayValue;
+        displayValue = operate(Number(firstValue), operator, Number(secondValue));
+        updateDisplay();
+        firstValue = displayValue;
+        equalSwitch = true;  
+    }
+}
 
 //inputs chosen number, if user just pressed equals before; clears display and updates display with chosen number
 let numbersArray = Array.from(numbers);
@@ -72,7 +108,6 @@ numbersArray.forEach(button => {
         } else {
             displayValue += (event.target.id);
         } 
-        console.log("pressed-key: " + event.target.id);
         updateDisplay();
     });
 });
@@ -85,84 +120,19 @@ operatorsArray.forEach(button => {
             firstValue = displayValue
             operator = (event.target.id);
             clearDisplay();
-
-            console.log("--------------------------------------------------");
-            console.log("pressed-operator " + operator);
-            console.log("firstValue: " + firstValue);
-            console.log("secondValue: " + secondValue);
-            console.log("--------------------------------------------------");
-
         } else if (firstValue !== null & equalSwitch == false) {
             secondValue = displayValue;
             clearDisplay();
             firstValue = operate(Number(firstValue), operator, Number(secondValue));
             operator = (event.target.id);
-
-            console.log("--------------------------------------------------");
-            console.log("pressed-operator " + operator);
-            console.log("firstValue: " + firstValue);
-            console.log("secondValue: " + secondValue);
-            console.log("--------------------------------------------------");
-
         } else if (firstValue !== null & equalSwitch == true) {
             firstValue = displayValue;
             clearDisplay();
             operator = (event.target.id);
             equalSwitch = false;
-            console.log("--------------------------------------------------");
-            console.log("pressed-operator " + operator);
-            console.log("firstValue: " + firstValue);
-            console.log("secondValue: " + secondValue);
-            console.log("--------------------------------------------------");
         }
     });
 });
-
-//updates display with typed value and shows scientific notion if string length is above 9
-function updateDisplay() {
-    display.textContent = displayValue;
-    if (displayValue !== null) {
-        if (displayValue.length > 9) {
-            let numberdisplayValue = Number(displayValue);
-            displayValue = numberdisplayValue.toExponential(2);
-        }
-    }
-}
-
-//clears display
-function clearDisplay() {
-    displayValue = null;
-    updateDisplay();
-}
-
-//sets all value to null and updates display
-function clearAll() {
-    displayValue = null;
-    updateDisplay();
-    firstValue = null;
-    secondValue = null;
-    operator = null;
-    equalSwitch = false;
-    console.log("clear All");
-}
-
-//sets display value as second value, operates and shows result
-function equals() {
-    if (equalSwitch === false) {
-        secondValue = displayValue;
-        displayValue = operate(Number(firstValue), operator, Number(secondValue));
-        updateDisplay();
-        firstValue = displayValue;
-        equalSwitch = true;  
-    }
-
-    console.log("--------------------------------------------------");
-    console.log("equals");
-    console.log("firstValue: " + firstValue);
-    console.log("secondValue: " + secondValue);
-    console.log(equalSwitch)
-    console.log("--------------------------------------------------");
-}
 
 //operates based on chosen operator
 function operate(a, op, b) {
